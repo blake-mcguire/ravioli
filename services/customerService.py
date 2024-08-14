@@ -1,5 +1,5 @@
 from database import db #need db be to serve incoming data to db
-from models.customer import Customer #need this to creat Customer Objects
+from models.customer import Customer #need this to create Customer Objects
 from sqlalchemy import select
 
 def save(customer_data):
@@ -15,3 +15,7 @@ def find_all():
     query = select(Customer)
     all_customers = db.session.execute(query).scalars().all()
     return all_customers
+
+def find_all_paginate(page, per_page):
+    customers = db.paginate(select(Customer), page = page, per_page = per_page)
+    return customers
