@@ -2,6 +2,7 @@ from flask import jsonify, request
 from models.schemas.orderSchema import order_schema, orders_schema
 from marshmallow import ValidationError
 from services import orderService
+from utils.util import user_token_wrapper
 
 def save():
     try:
@@ -20,8 +21,12 @@ def find_by_id(id):
      orders = orderService.find_by_id(id)
      return orders_schema.jsonify(orders), 200
 
-def find_by_customer_id(id):
-     orders = orderService.find_by_customer_id(id)
+@user_token_wrapper
+def find_by_customer_id(id, token_id):
+     if id == token_id:
+          orders = orderService.find_by_customer_id(id)
+     else:
+          return jsonify({"message": "You can't view other peoples orders..."})
      return orders_schema.jsonify(orders), 200
 
 def find_by_customer_email():

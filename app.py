@@ -38,7 +38,7 @@ if __name__ == '__main__':
 
     blueprint_config(app)
 
-    rate_limit_config()
+    # rate_limit_config()
 
     with app.app_context():
         # db.drop_all()
