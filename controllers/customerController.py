@@ -17,6 +17,7 @@ def login():
     else:
         return jsonify({'messages':'Invalid username or password'}), 401
 
+@admin_required
 def save(): #name the controller will always be the same as the service function
 
     try:

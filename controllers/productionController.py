@@ -1,13 +1,14 @@
 from flask import request, jsonify
 from services import productionService  
 from models.schemas.productionSchema import production_schema
+from utils.util import admin_required
 
 def total_quantity_by_product_on_date():
     specific_date = request.args.get('date')  # Expecting date in 'YYYY-MM-DD' format
     results = productionService.get_total_quantity_by_product_on_date(specific_date)
     return jsonify([dict(row) for row in results]), 200
 
-
+@admin_required
 def create_production():
     
     data = request.json

@@ -25,7 +25,7 @@ def login(username, password): #Login using unique info so we don't query multip
 
 def save(customer_data):
     
-    new_customer = Customer(name=customer_data['name'], email=customer_data['email'], password=customer_data['password'], phone=customer_data['phone'], username=customer_data['username'])
+    new_customer = Customer(name=customer_data['name'], email=customer_data['email'], password=customer_data['password'], phone=customer_data['phone'], username=customer_data['username'], role_id=customer_data['role_id'])
     db.session.add(new_customer)
     db.session.commit()
 
