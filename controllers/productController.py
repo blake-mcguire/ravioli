@@ -22,3 +22,18 @@ def search_product():
      search_term = request.args.get("search")
      searched_items = productService.search_product(search_term)
      return products_schema.jsonify(searched_items)
+
+def get_all_products_paginated():
+     page = int(request.args.get('page'))
+     per_page = int(request.args.get('per_page'))
+     products = productService.get_all_products_paginated(page, per_page)
+     return products_schema.jsonify(products), 200
+
+def total_quantity_by_employee():
+    results = productService.get_total_quantity_by_employee()
+    return jsonify([dict(row) for row in results]), 200
+
+
+def top_selling_products():
+    results = productService.get_top_selling_products()
+    return jsonify([dict(row) for row in results]), 200

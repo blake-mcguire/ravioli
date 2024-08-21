@@ -1,6 +1,10 @@
 from database import db #need db be to serve incoming data to db
-from models.customer import Customer #need this to create Customer Objects
+from models.customer import Customer 
+from models.order import Order
+from models.product import Product
+from models.orderProduct import order_product
 from utils.util import encode_token
+from sqlalchemy import select, func
 
 from sqlalchemy import select
 
@@ -36,3 +40,12 @@ def find_all():
 def find_all_paginate(page, per_page):
     customers = db.paginate(select(Customer), page = page, per_page = per_page)
     return customers
+
+def get_total_order_value_by_customer(threshold):
+    query = db.session.query(
+        Customer.name.label('customer_name'),
+        func.sum(Product.price * order_product.c.quantity).label('total_order_value')
+    ).join(Order, Customer.id == Order.customer_id).join(order_product, Order.id == order_product.c.order_id).join(Product, order_product.c.product_id == Product.id).group_by(Customer.name).having(func.sum(Product.price * order_product.c.quantity) >= threshold).order_by(func.sum(Product.price * order_product.c.quantity).desc())
+    
+    results = db.session.execute(query).fetchall()
+    return results

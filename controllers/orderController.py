@@ -33,3 +33,9 @@ def find_by_customer_email():
      email = request.json['email']
      orders = orderService.find_by_customer_email(email)
      return orders_schema.jsonify(orders), 200
+
+def find_all_orders_paginated():
+     page = int(request.args.get('page'))
+     per_page = int(request.args.get('per_page'))
+     orders = orderService.find_all_orders_paginated(page, per_page)
+     return orders_schema.jsonify(orders), 200

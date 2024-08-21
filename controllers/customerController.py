@@ -29,6 +29,13 @@ def save(): #name the controller will always be the same as the service function
     customer_saved = customerService.save(customer_data)
     return customer_schema.jsonify(customer_data), 201
 
+
+def total_order_value_by_customer():
+    threshold = float(request.args.get('threshold', 0))  # Default threshold is 0
+    results = customerService.get_total_order_value_by_customer(threshold)
+    return jsonify([dict(row) for row in results]), 200
+
+
 # @token_required
 @cache.cached(timeout=60)
 @admin_required

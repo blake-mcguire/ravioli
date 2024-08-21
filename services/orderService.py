@@ -40,3 +40,7 @@ def find_by_customer_email(email):
     query = select(Order).join(Customer).where(Customer.id == Order.customer_id).filter(Customer.email == email)
     orders = db.session.execute(query).scalars().all()
     return orders
+
+def find_all_orders_paginated(page, per_page):
+    orders = db.session.query(Order).paginate(page=page, per_page=per_page, error_out=False)
+    return orders
